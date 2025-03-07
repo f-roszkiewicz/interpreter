@@ -1,0 +1,128 @@
+-- programs ------------------------------------------------
+
+entrypoints Program ;
+
+Program.   Program ::= [Decl] ;
+
+MainDef.   Decl ::= "fun" ":" "main" "(" ")" Stmt ;
+
+FnDef.     Decl ::= "fun" ":" Type Ident "(" [Arg] ")" Stmt ;
+
+VarDef.    Decl ::= "var" ":" Type Ident ":=" Exp ;
+
+ArrDef.    Decl ::= "arr" ":" Type Ident ":=" "[" [Exp] "]" ;
+
+separator nonempty Decl ";" ;
+
+VarArg.    Arg ::= "var" ":" Type Ident ;
+
+RefArg.    Arg ::= "ref" ":" Type Ident ;
+
+separator  Arg "," ;
+
+-- statements ----------------------------------------------
+
+Block.     Stmt ::= "begin" Stmt1 "end" ;
+
+Then.      Stmt1 ::= Stmt ";" Stmt1 ;
+
+_.         Stmt1 ::= Stmt ;
+
+Skip.      Stmt ::= "skip" ;
+
+VarDecl.   Stmt ::= "var" ":" Type Ident ":=" Exp ;
+
+ArrDecl.   Stmt ::= "arr" ":" Type Ident ":=" "[" [Exp] "]" ;
+
+PrintInt.  Stmt ::= "printInt" "(" Exp ")" ;
+
+PrintStr.  Stmt ::= "printString" "(" Exp ")" ;
+
+PrintBool. Stmt ::= "printBool" "(" Exp ")" ;
+
+Ass.       Stmt ::= Ident ":=" Exp ;
+
+ArrAss.    Stmt ::= Ident ":=" "[" [Exp] "]" ;
+
+Ret.       Stmt ::= "return" Exp ;
+
+If.        Stmt ::= "if" Exp "then" Stmt "else" Stmt ;
+
+While.     Stmt ::= "while" Exp "do" Stmt ;
+
+Break.     Stmt ::= "break" ;
+
+Continue.  Stmt ::= "continue" ;
+
+-- Types ---------------------------------------------------
+
+IntType.   Type ::= "int" ;
+
+StrType.   Type ::= "string" ;
+
+BoolType.  Type ::= "bool" ;
+
+-- Expressions ---------------------------------------------
+
+EVar.      Exp6 ::= Ident ;
+
+EArr.      Exp6 ::= Ident "[" Exp "]" ;
+
+ERef.      Exp6 ::= "ref" "(" Ident ")" ;
+
+ELitInt.   Exp6 ::= Integer ;
+
+ELitTrue.  Exp6 ::= "true" ;
+
+ELitFalse. Exp6 ::= "false" ;
+
+EApp.      Exp6 ::= Ident "(" [Exp] ")" ;
+
+EString.   Exp6 ::= String ;
+
+Neg.       Exp5 ::= "-" Exp6 ;
+
+Not.       Exp5 ::= "!" Exp6 ;
+
+EMul.      Exp4 ::= Exp4 MulOp Exp5 ;
+
+EAdd.      Exp3 ::= Exp3 AddOp Exp4 ;
+
+ERel.      Exp2 ::= Exp2 RelOp Exp3 ;
+
+EAnd.      Exp1 ::= Exp2 "&&" Exp1 ;
+
+EOr.       Exp ::= Exp1 "||" Exp ;
+
+coercions  Exp 6 ;
+
+separator  Exp "," ;
+
+-- operators -----------------------------------------------
+
+Plus.      AddOp ::= "+" ;
+
+Minus.     AddOp ::= "-" ;
+
+Times.     MulOp ::= "*" ;
+
+Div.       MulOp ::= "/" ;
+
+Mod.       MulOp ::= "%" ;
+
+LTH.       RelOp ::= "<" ;
+
+LE.        RelOp ::= "<=" ;
+
+GTH.       RelOp ::= ">" ;
+
+GE.        RelOp ::= ">=" ;
+
+EQU.       RelOp ::= "==" ;
+
+NE.        RelOp ::= "!=" ;
+
+-- comments ------------------------------------------------
+
+comment    "#" ;
+
